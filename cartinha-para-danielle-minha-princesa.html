@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cartinha para Mo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --text-3xl: clamp(2.5rem, 1rem + 4vw, 5rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem; --space-20: 5rem;
+      --color-bg: #f7f0ea; --color-surface: #fffaf7; --color-surface-2: #fffdfb; --color-border: rgba(88,55,43,0.12); --color-text: #3a251f; --color-text-muted: #7a635b; --color-primary: #b55d79; --color-primary-2: #e8ad6a; --color-primary-soft: rgba(181,93,121,0.12); --color-inverse: #fff8f4; --shadow-md: 0 18px 50px rgba(108,61,74,0.12); --shadow-lg: 0 24px 70px rgba(108,61,74,0.18); --radius-md: 0.75rem; --radius-lg: 1.25rem; --radius-xl: 1.75rem; --radius-full: 999px; --font-display: 'Cormorant Garamond', Georgia, serif; --font-body: 'Manrope', Arial, sans-serif; --transition: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh; font-family: var(--font-body); font-size: var(--text-base); line-height: 1.65; color: var(--color-text);
+      background:
+        radial-gradient(circle at top left, rgba(232,173,106,0.20), transparent 30%),
+        radial-gradient(circle at top right, rgba(181,93,121,0.18), transparent 28%),
+        linear-gradient(180deg, #f9f2ed 0%, #f7f0ea 48%, #fff9f5 100%);
+      overflow-x: hidden;
+    }
+    img { display: block; width: 100%; height: auto; }
+    button { font: inherit; border: 0; cursor: pointer; }
+    .hearts { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    .heart { position: absolute; bottom: -10vh; color: rgba(181,93,121,0.22); animation: floatUp linear infinite; font-size: clamp(18px, 2vw, 30px); }
+    @keyframes floatUp { from { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; } 10% { opacity: 1; } to { transform: translateY(-120vh) translateX(30px) rotate(18deg); opacity: 0; } }
+    .page { position: relative; z-index: 1; width: min(1100px, calc(100% - 2rem)); margin: 0 auto; padding: var(--space-8) 0 var(--space-16); }
+    .hero { min-height: 100vh; display: grid; align-items: center; padding: var(--space-8) 0; }
+    .hero-card {
+      background: rgba(255,250,247,0.76); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.55); border-radius: 32px; box-shadow: var(--shadow-lg);
+      display: grid; gap: var(--space-8); grid-template-columns: 1.1fr 0.9fr; padding: clamp(1.5rem, 4vw, 3rem);
+    }
+    .eyebrow { letter-spacing: 0.16em; text-transform: uppercase; font-size: var(--text-xs); color: var(--color-text-muted); margin-bottom: var(--space-4); }
+    h1, h2 { font-family: var(--font-display); line-height: 1.05; font-weight: 600; }
+    h1 { font-size: var(--text-3xl); margin-bottom: var(--space-5); }
+    h2 { font-size: var(--text-2xl); margin-bottom: var(--space-5); }
+    .hero p { max-width: 34ch; color: var(--color-text-muted); margin-bottom: var(--space-6); }
+    .actions { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+    .btn {
+      min-height: 48px; padding: 0.95rem 1.25rem; border-radius: var(--radius-full); transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 700;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: linear-gradient(135deg, var(--color-primary), #cf7d99); color: white; box-shadow: 0 12px 28px rgba(181,93,121,0.28); }
+    .btn-secondary { background: rgba(255,255,255,0.72); border: 1px solid var(--color-border); color: var(--color-text); }
+    .hero-photo-stack { position: relative; min-height: 500px; }
+    .photo-card {
+      position: absolute; width: min(280px, 75vw); background: white; border-radius: 26px; padding: 0.75rem; box-shadow: var(--shadow-md); transform: rotate(var(--rotation)); transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .photo-card:hover { transform: rotate(var(--rotation)) translateY(-6px) scale(1.01); box-shadow: var(--shadow-lg); }
+    .photo-card img { border-radius: 18px; aspect-ratio: 3 / 4; object-fit: cover; }
+    .photo-card small { display: block; padding: 0.65rem 0.35rem 0.1rem; color: var(--color-text-muted); font-size: var(--text-xs); }
+    .photo-1 { top: 0; right: 10%; --rotation: -6deg; }
+    .photo-2 { top: 28%; left: 0; --rotation: 7deg; }
+    .photo-3 { bottom: 2%; right: 0; --rotation: -2deg; }
+    .section { padding: var(--space-16) 0 0; }
+    .letter-shell {
+      background: rgba(255,253,251,0.88); border: 1px solid rgba(88,55,43,0.10); border-radius: 32px; box-shadow: var(--shadow-md); overflow: hidden;
+    }
+    .letter-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-6); border-bottom: 1px solid var(--color-border); background: linear-gradient(135deg, rgba(181,93,121,0.10), rgba(232,173,106,0.10)); }
+    .seal { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--color-primary); color: white; font-family: var(--font-display); font-size: 1.35rem; box-shadow: 0 12px 28px rgba(181,93,121,0.25); }
+    .letter-content { padding: clamp(1.5rem, 4vw, 3rem); }
+    .letter-paper {
+      background: linear-gradient(180deg, #fffdfb 0%, #fff8f1 100%); border: 1px solid rgba(88,55,43,0.08); border-radius: 24px; padding: clamp(1.5rem, 4vw, 3rem); position: relative;
+    }
+    .letter-paper::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(transparent 31px, rgba(181,93,121,0.06) 32px); background-size: 100% 32px; opacity: 0.26; pointer-events: none;
+    }
+    .letter-text { position: relative; z-index: 1; display: grid; gap: var(--space-5); }
+    .letter-text p { max-width: 60ch; }
+    .signature { margin-top: var(--space-6); font-family: var(--font-display); font-size: var(--text-xl); color: var(--color-primary); }
+    .mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-top: var(--space-8); }
+    .mini-card {
+      background: rgba(255,255,255,0.76); border: 1px solid var(--color-border); border-radius: 22px; padding: var(--space-5);
+    }
+    .mini-card span { display: block; font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.14em; color: var(--color-text-muted); margin-bottom: var(--space-3); }
+    .mini-card strong { font-size: var(--text-lg); display: block; margin-bottom: var(--space-2); }
+    .surprise-wrap { display: grid; gap: var(--space-6); }
+    .surprise-box {
+      background: linear-gradient(135deg, rgba(181,93,121,0.12), rgba(232,173,106,0.14)); border: 1px solid rgba(181,93,121,0.16); border-radius: 30px; padding: clamp(1.5rem, 3vw, 2.25rem); box-shadow: var(--shadow-md);
+    }
+    .hidden-message { display: none; margin-top: var(--space-5); padding: var(--space-5); border-radius: 22px; background: rgba(255,255,255,0.82); border: 1px dashed rgba(181,93,121,0.28); }
+    .hidden-message.show { display: block; animation: fadeUp 500ms ease; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .gallery { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-4); }
+    .gallery-item { overflow: hidden; border-radius: 24px; box-shadow: var(--shadow-md); min-height: 260px; position: relative; }
+    .gallery-item img { height: 100%; object-fit: cover; transition: transform 350ms ease; }
+    .gallery-item:hover img { transform: scale(1.04); }
+    .gallery-item:nth-child(1) { grid-column: span 5; }
+    .gallery-item:nth-child(2) { grid-column: span 3; }
+    .gallery-item:nth-child(3) { grid-column: span 4; }
+    .gallery-item:nth-child(4) { grid-column: span 4; }
+    .gallery-item:nth-child(5) { grid-column: span 5; }
+    .gallery-item:nth-child(6) { grid-column: span 3; }
+    .footer-love { text-align: center; padding: var(--space-16) 0 var(--space-8); color: var(--color-text-muted); }
+    .footer-love strong { color: var(--color-primary); }
+    .music-note { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-4); }
+    .count-badge { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: var(--space-4); background: rgba(255,255,255,0.76); border: 1px solid var(--color-border); padding: 0.7rem 1rem; border-radius: var(--radius-full); font-size: var(--text-sm); }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 700ms ease, transform 700ms ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .skip-link { position: absolute; left: -999px; top: 0; }
+    .skip-link:focus { left: 1rem; top: 1rem; background: white; padding: 0.75rem 1rem; border-radius: 999px; z-index: 100; }
+    @media (max-width: 920px) {
+      .hero-card { grid-template-columns: 1fr; }
+      .hero-photo-stack { min-height: 560px; }
+    }
+    @media (max-width: 720px) {
+      .page { width: min(100% - 1rem, 1100px); }
+      .hero { min-height: auto; }
+      .hero-photo-stack { min-height: 500px; }
+      .photo-card { width: min(230px, 72vw); }
+      .photo-1 { right: 5%; }
+      .photo-2 { top: 34%; }
+      .mini-grid { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: 1fr 1fr; }
+      .gallery-item { grid-column: span 1 !important; min-height: 220px; }
+      .actions { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#conteudo" class="skip-link">Pular para o conteúdo</a>
+  <div class="hearts" aria-hidden="true"></div>
+
+  <main id="conteudo" class="page">
+    <section class="hero reveal">
+      <div class="hero-card">
+        <div>
+          <div class="eyebrow">05.07.2026 • 1 ano de nós</div>
+          <h1>Para Danielle, minha <em>princesa</em>.</h1>
+          <p>Uma cartinha feita com amor para celebrar nossos 365 dias e tudo o que ainda vamos viver juntinhos, Danielle, minha princesa.</p>
+          <div class="actions">
+            <button class="btn btn-primary" id="openLetter">Abrir a cartinha 💌</button>
+            <a class="btn btn-secondary" href="#galeria">Ver nossas fotos</a>
+          </div>
+          <div class="count-badge">❤️ Feliz 365 dias de uma história infinita</div>
+          <p class="music-note">Dica: abre em tela cheia e vai rolando devagar.</p>
+        </div>
+        <div class="hero-photo-stack" aria-label="Fotos do casal">
+          <figure class="photo-card photo-1"><img src="./assets/01.jpeg" alt="Gusttavo e Mo sorrindo juntos em um dia ensolarado na água" loading="lazy" width="1125" height="2000"><small>Sol, sorriso e nós dois.</small></figure>
+          <figure class="photo-card photo-2"><img src="./assets/02.jpeg" alt="Selfie de Gusttavo e Mo usando óculos escuros com lago e serra ao fundo" loading="lazy" width="1125" height="2000"><small>Cada memória contigo fica mais bonita.</small></figure>
+          <figure class="photo-card photo-3"><img src="./assets/05.jpeg" alt="Mo sorrindo segurando um buquê de flores" loading="lazy" width="1125" height="2000"><small>A mulher mais linda do mundo todinho.</small></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="carta">
+      <div class="letter-shell">
+        <div class="letter-top">
+          <div>
+            <div class="eyebrow">Uma carta para o amor da minha vida</div>
+            <h2>Meu primeiro ciclo com você</h2>
+          </div>
+          <div class="seal" aria-hidden="true">M</div>
+        </div>
+        <div class="letter-content">
+          <article class="letter-paper">
+            <div class="letter-text">
+              <p>Eiiii amooooor, feliz 365 dias de uma história infinita! Eu estou tão feliz, mas tão feliz por tudo o que vivemos nesse 1 ano, de pensar que foi apenas 1 ano, e que se Deus permitir teremos uma longa vida para dividir.</p>
+              <p>Meu amor, eu sou tão grato por sua vida! Por tudo o que temos vivido e por tudo o que você tem me ensinado. A ser um homem melhor, a dividir, a ser presente, a ser menos expressivo às vezes, por me dar liberdade de te compreender e amar. E por mais difícil que seja em alguns momentos, não desistir de mim.</p>
+              <p>Você me faz bem de uma forma diferente, de uma forma que eu me sinto confortável, feliz e amado.</p>
+              <p>Eu te amo nos detalhes que talvez nem perceba, no jeito que você fala quando está animada, nas suas manias, nas suas risadas. São com esses pequenos detalhes que eu percebo que o que eu sinto é muito mais que amor! Eu te admiro, eu me orgulho de você, sou apaixonado por você, eu te desejo a todo instante, você é minha companheira e minha melhor amiga.</p>
+              <p>Obrigado por existir do jeito que você existe. Você se tornou a melhor parte da minha vida. Hoje só quero que você saiba: entre todas as coisas que eu podia desejar pra mim, ter você ao meu lado é uma das maiores. Que Deus continue nos dando motivos para sorrirmos juntos, criar memórias e dividir momentos pra toda a vida.</p>
+              <p>Feliz nosso primeiro ciclo, minha princesa linda maravilhosa. E que esse novo ciclo e os próximos do nosso relacionamento sejam cheios de alegria, experiências, amor e muito “amor 😏”.</p>
+              <p>Eu te amoooooooo. Sou privilegiado de ser seu namorado. Para sempre NÓS ❤️❤️❤️</p>
+              <div class="signature">Com todo o meu amor, Gusttavo.</div>
+            </div>
+          </article>
+
+          <div class="mini-grid">
+            <div class="mini-card"><span>365 dias</span><strong>De parceria</strong><p>Um ano de história, carinho, cuidado e lembranças que só aumentam.</p></div>
+            <div class="mini-card"><span>Mo</span><strong>Meu apelido favorito</strong><p>Porque até o seu nome fica ainda mais lindo quando vem carregado de amor.</p></div>
+            <div class="mini-card"><span>Para sempre</span><strong>Nosso desejo</strong><p>Seguir celebrando ciclos, experiências e momentos lado a lado.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="surprise-wrap">
+        <div>
+          <div class="eyebrow">Um carinho extra</div>
+          <h2>Tem uma surpresa aqui</h2>
+        </div>
+        <div class="surprise-box">
+          <p>Se você chegou até aqui, aperta o botão abaixo porque tem mais uma coisinha guardada só pra você, Mo.</p>
+          <button class="btn btn-primary" id="surpriseButton">Clique para descobrir ✨</button>
+          <div class="hidden-message" id="secretMessage">
+            <p><strong>Promessa de namorado apaixonado:</strong> continuar sendo abrigo, parceiro, admirador e o homem que vai escolher você todos os dias.</p>
+            <p>Que o nosso amor continue leve, divertido, intenso, companheiro e cheio de memórias lindas como essas fotos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section reveal">
+      <div class="surprise-wrap">
+        <div>
+          <div class="eyebrow">Nossa trilha sonora</div>
+          <h2>Uma música para acompanhar esse momento</h2>
+        </div>
+        <div class="surprise-box">
+          <p>Coloque o som para tocar e leia essa cartinha com a nossa energia. Escolhi “Everybody Wants To Rule The World”, do Tears for Fears.</p>
+          <div style="margin-top:1.25rem;border-radius:24px;overflow:hidden;box-shadow:var(--shadow-md);background:#000;">
+            <iframe width="100%" height="315" src="https://www.youtube.com/embed/aGCdLKXNF3w?start=0" title="Everybody Wants To Rule The World - Tears for Fears" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <p class="music-note">Se o player não tocar sozinho no celular, é só apertar play.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="galeria">
+      <div class="eyebrow">Nossas memórias</div>
+      <h2>Um pedacinho de nós</h2>
+      <div class="gallery" aria-label="Galeria de fotos do casal">
+        <figure class="gallery-item"><img src="./assets/01.jpeg" alt="Selfie do casal durante passeio na água ao pôr do sol" loading="lazy" width="1125" height="2000"></figure>
+        <figure class="gallery-item"><img src="./assets/02.jpeg" alt="Selfie do casal de óculos escuros em passeio com montanhas ao fundo" loading="lazy" width="1125" height="2000"></figure>
+        <figure class="gallery-item"><img src="./assets/03.jpeg" alt="Casal sorrindo em um passeio de barco no mar" loading="lazy" width="1125" height="2000"></figure>
+        <figure class="gallery-item"><img src="./assets/04.jpeg" alt="Casal em um momento juntinho em ambiente noturno" loading="lazy" width="1125" height="2000"></figure>
+        <figure class="gallery-item"><img src="./assets/05.jpeg" alt="Mo sorrindo segurando flores" loading="lazy" width="1125" height="2000"></figure>
+        <figure class="gallery-item"><img src="./assets/06.jpeg" alt="Casal sorrindo em um evento" loading="lazy" width="1125" height="2000"></figure>
+      </div>
+    </section>
+
+    <footer class="footer-love reveal">
+      <p>Feito com carinho para <strong>Danielle, minha princesa</strong>, celebrando 1 ano de namoro em 05/07/2026.</p>
+    </footer>
+  </main>
+
+  <script>
+    const openLetter = document.getElementById('openLetter');
+    const surpriseButton = document.getElementById('surpriseButton');
+    const secretMessage = document.getElementById('secretMessage');
+
+    openLetter?.addEventListener('click', () => {
+      document.getElementById('carta')?.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    surpriseButton?.addEventListener('click', () => {
+      secretMessage.classList.toggle('show');
+      surpriseButton.textContent = secretMessage.classList.contains('show') ? 'Você desbloqueou meu coração 💖' : 'Clique para descobrir ✨';
+    });
+
+    const hearts = document.querySelector('.hearts');
+    const symbols = ['❤', '❤', '♡', '♥'];
+    for (let i = 0; i < 18; i++) {
+      const heart = document.createElement('span');
+      heart.className = 'heart';
+      heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.animationDuration = `${10 + Math.random() * 10}s`;
+      heart.style.animationDelay = `${Math.random() * 6}s`;
+      heart.style.fontSize = `${18 + Math.random() * 18}px`;
+      hearts.appendChild(heart);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.18 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
